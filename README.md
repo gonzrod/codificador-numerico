@@ -1,0 +1,2 @@
+# codificador-numerico
+Codificador numérico 
