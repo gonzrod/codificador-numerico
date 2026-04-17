@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codificador Numérico</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --secondary: #95a5a6;
+            --bg: #f4f7f6;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 380px;
+        }
+        h1 { color: var(--primary); margin-bottom: 1.5rem; font-size: 1.4rem; }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input:focus { border-color: var(--primary); }
+
+        button {
+            padding: 10px 15px;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #7f8c8d; }
+
+        .resultado-container {
+            margin-top: 1rem;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            border: 1px dashed #ccc;
+            min-height: 60px;
+        }
+        .label { font-size: 0.75rem; color: #7f8c8d; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
+        #resultado {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: 5px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Codificador Numérico</h1>
+        
+        <div class="input-group">
+            <input type="number" id="inputNumero" placeholder="Escribe un número..." oninput="convertir()">
+            <button onclick="limpiar()" title="Limpiar campo">Borrar</button>
+        </div>
+        
+        <div class="resultado-container">
+            <div class="label">Código Generado:</div>
+            <div id="resultado">---</div>
+        </div>
+    </div>
+
+    <script>
+        // Diccionario de equivalencias
+        const MAPA = {
+            '1': 'C', '2': 'H', '3': 'A', '4': 'R', '5': 'L',
+            '6': 'E', '7': 'S', '8': 'T', '9': 'O', '0': 'N'
+        };
+
+        function convertir() {
+            const input = document.getElementById('inputNumero');
+            const display = document.getElementById('resultado');
+            let valorOriginal = input.value;
+
+            // Si el campo está vacío, resetear pantalla
+            if (valorOriginal === "") {
+                display.innerText = "---";
+                return;
+            }
+
+            // APLICAR REGLAS:
+            // 1. Math.abs() -> Ignora el signo negativo (lo vuelve positivo)
+            // 2. Math.trunc() -> Ignora decimales (corta el número en el punto)
+            let numeroLimpio = Math.trunc(Math.abs(parseFloat(valorOriginal)));
+
+            // Convertir dígitos a letras según el mapa
+            const resultadoFinal = numeroLimpio.toString()
+                .split('')
+                .map(digito => MAPA[digito] || '')
+                .join('');
+
+            display.innerText = resultadoFinal;
+        }
+
+        function limpiar() {
+            const input = document.getElementById('inputNumero');
+            const display = document.getElementById('resultado');
+            
+            input.value = ""; // Borra el texto del input
+            display.innerText = "---"; // Resetea el resultado visual
+            input.focus(); // Devuelve el cursor al input para seguir escribiendo
+        }
+    </script>
+
+</body>
+</html>w
